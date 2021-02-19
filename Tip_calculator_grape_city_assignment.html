@@ -1,0 +1,201 @@
+
+<!-- JAVASCRIPT CODE IS AT THE BOTTOM -->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>
+        
+        </title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+<style>
+     *{margin:0;padding: 0;box-sizing: border-box;
+        font-family: 'Josefin Sans', sans-serif;
+     
+     }
+
+     main{
+         height: 100vh;
+         background-image: linear-gradient(to right top,
+         #004d7a,#008793,#a8eb12);
+
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction:column;
+          
+
+     }
+      
+      div{
+
+          max-width: 500px; height: auto;
+          background-color: #00ce3e;
+          padding: 50px;
+          box-shadow:1px 1px 15px 3px #2d3436 ;
+      }
+
+label{
+    display: block;
+    text-transform: capitalize;
+    margin-top: 30px;
+}
+
+input{
+     width: 400px;
+     padding: 10px 0;
+}
+
+button{
+    border-radius: 10px;
+    padding: 15px 30px;
+    margin-top: 20px;
+
+
+}
+
+
+</style>
+
+       
+
+    </head>
+    <body>
+        <main>
+            <h1>TIP CALCULATOR</h1>
+       <div>
+            
+               <label>total Bill amount</label>
+               <input type="text" name="" id="bill_amount">
+               <br>
+               
+                
+               <label>total persons</label>
+               <input type="text" name="" id="total_persons">
+               <br>
+               <label>tip percent</label>
+               <input type="text" name="" id="tip_perc">
+               <br>
+               <label>tip per person</label>
+               <input type="text" name="" id="tip_total" disabled>
+               <br>
+               <label>bill per person</label>
+               <input type="text" name="" id="total_bill" disabled>
+               <br>
+               <button onclick="tipcalcy()">calculate</button>
+               <button onclick="clearit()">clear</button>
+
+        
+           
+       </div>
+    
+    </main>
+      
+
+    <script>
+    	// CLASS BILL IS MADE AT BOTTOM 
+
+                 function onlyDigits(s) {                     //CHECKING VALIDATION OF TOTAL AMOUNT BOX
+            	     let x=s.length -1;
+                     var dot=s.charCodeAt(x);
+            	     if(dot==46)
+                        return false;
+                       for (let i = s.length - 1; i >= 0; i--) 
+                       {
+                                var d = s.charCodeAt(i);
+                                if(d==46)
+                                continue;
+                                if (d < 48 || d > 57 )
+                                return false
+                         
+                        }
+                                return true
+                        }
+            
+                function totalperson(x){                            //CHECKING VALIDATION OF TOTAL PERSONS TEXT BOX
+                        for (let i = x.length - 1; i >= 0; i--) 
+                        {
+                             var d = x.charCodeAt(i);
+                            if (d < 49 || d > 57 )
+                            return false
+                        }
+                        return true
+                        }
+
+           
+
+            const clearit=() =>{                                      //CLEAR BUTTON 
+           
+            document.getElementById('bill_amount').value='';
+            document.getElementById('tip_perc').value='';
+            document.getElementById('total_persons').value='';
+            document.getElementById('tip_total').value='';
+            document.getElementById('total_bill').value='';
+                             }
+
+
+            const tipcalcy= () => {                                //CALCULATE BUTTON FUNCTIONALITY
+                 let amount='';let percent='';let persons='';
+               amount=document.getElementById('bill_amount').value;    //TAKING INPUT OF BILL AMOUNT
+               percent=document.getElementById('tip_perc').value;       //TAKING INPUT OF TIP PERCENT
+               persons=document.getElementById('total_persons').value;   //TAKING INPUT OF NO. OF PERSONS
+
+
+            
+              if((amount=="")||(percent=="") ||(persons==""))  // IF INPUT BOX ARE EMPTY PRINT THE FOLLOEING
+            {
+
+              alert('Fill all details to check');
+           
+
+
+            } 
+            else{
+                
+                 if(onlyDigits(amount)&&totalperson(persons)&&onlyDigits(percent))  //VALIDATE ALL THE INPUT BOX AND THEN PROCEED
+      
+      {
+      	          let bill = new Bill(amount, persons, percent);                      //CREATION OF OBJECT
+      	          document.getElementById('tip_total').value= bill.getTipPerperson();  //OUTPUT OF TIP PER PERSON
+                  document.getElementById('total_bill').value= bill.getBillPerperson(); //OUTPUT OF BILL PER PERSON
+
+          
+      }
+                  else{
+                  alert('invalid input');
+                      }
+              }
+
+   }
+
+
+// ---------------BILL CLASS------------
+
+   class Bill {
+  constructor(amount, persons, percent) {            //CONSTRUCTOR FOR INITIALIZATION
+    this.amount = amount;
+    this.persons = persons;
+    this.percent = percent;
+  }
+  
+  getTipPerperson() {                                               //GETTER METHOD
+    let tps=((Number(this.percent)/100)*Number(this.amount)/Number(this.persons));   
+    tps = Math.floor(tps);
+    return tps;
+  }
+  getBillPerperson() {                                              //GETTER METHOD
+	let bps=(Number(this.amount)+(Number(this.percent)/100)*Number(this.amount))/Number(this.persons);
+	bps=Math.floor(bps);
+	return bps;
+  }
+}
+
+
+    </script>
+
+    </body>
+   
+
+</html>
